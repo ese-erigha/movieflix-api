@@ -4,5 +4,5 @@ compatibility_date = "2023-11-21"
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "d1-example"
-database_id = "" # Replace with your ID from `wrangler d1 create`
+database_name = "movieflix"
+database_id = "be4add8c-589c-4f44-9442-b8febd38486b" # Replace with your ID from `wrangler d1 create`

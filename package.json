@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
-		"start": "wrangler dev"
+		"start": "wrangler dev",
+		"export-table": "wrangler d1 execute movieflix --remote --file=supabase.sql"
 	},
 	"dependencies": {
 		"hono": "^3.12.11"
