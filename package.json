@@ -8,10 +8,13 @@
 		"export-table": "wrangler d1 execute movieflix --remote --file=supabase.sql"
 	},
 	"dependencies": {
+		"axios": "^1.7.2",
+		"drizzle-orm": "^0.32.1",
 		"hono": "^3.12.11"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240722.0",
+		"drizzle-kit": "^0.23.0",
 		"typescript": "^5.4.5",
 		"wrangler": "^3.21.0"
 	}

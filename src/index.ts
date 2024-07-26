@@ -1,17 +1,21 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { Bindings } from './common/types/app.types';
+import recommendationRouter from './routers/recommendation.router';
 
-interface Comment {
-	author: string;
-	body: string;
-}
+// interface Comment {
+// 	author: string;
+// 	body: string;
+// }
 
-type Bindings = {
-	DB: D1Database;
-};
+// type Bindings = {
+// 	DB: D1Database;
+// };
 
 const app = new Hono<{ Bindings: Bindings }>();
-app.use('/api/*', cors());
+app.use(cors());
+app.route('/api/recommendations', recommendationRouter);
+// app.use('/api/*', cors());
 
 app.get('/', async c => {
  return c.text('Welcome');
@@ -24,27 +28,27 @@ app.get('/api/posts/:slug/comments', async c => {
 	return c.json(results);
 });
 
-app.post('/api/posts/:slug/comments', async c => {
-	const { slug } = c.req.param();
-	const { author, body } = await c.req.json<Comment>();
+// app.post('/api/posts/:slug/comments', async c => {
+// 	const { slug } = c.req.param();
+// 	const { author, body } = await c.req.json<Comment>();
 
-	if (!author) return c.text('Missing author value for new comment');
-	if (!body) return c.text('Missing body value for new comment');
+// 	if (!author) return c.text('Missing author value for new comment');
+// 	if (!body) return c.text('Missing body value for new comment');
 
-	const { success } = await c.env.DB.prepare(
-		`INSERT into comments (author, body, post_slug) VALUES (?, ?, ?)`
-	)
-		.bind(author, body, slug)
-		.run();
+// 	const { success } = await c.env.DB.prepare(
+// 		`INSERT into comments (author, body, post_slug) VALUES (?, ?, ?)`
+// 	)
+// 		.bind(author, body, slug)
+// 		.run();
 
-	if (success) {
-		c.status(201);
-		return c.text('Created');
-	} else {
-		c.status(500);
-		return c.text('Something went wrong');
-	}
-});
+// 	if (success) {
+// 		c.status(201);
+// 		return c.text('Created');
+// 	} else {
+// 		c.status(500);
+// 		return c.text('Something went wrong');
+// 	}
+// });
 
 app.onError((err, c) => {
 	console.error(`${err}`);
