@@ -8,7 +8,7 @@ import recommenderRouter from './routers/recommender.router';
 
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger())
-app.use(cors());
+app.use('*', cors());
 
 app.get('/', async c => {
  	return c.text('Welcome');
