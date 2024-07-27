@@ -6,23 +6,10 @@ import {
   MoviesResponse,
   PersonnelResponse,
 } from "./tmdb.types";
-import { axiosInstance } from "../../common/utils/http/http.client";
+import { axiosInstance } from "../../common/utils/http.client";
 
-const MOVIE_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const MOVIE_PATH = "/movie";
 const GENRE_LIST_PATH = `/genre${MOVIE_PATH}/list`;
-
-export const MOVIE_DB_IMAGE_URL: {
-  small: string;
-  medium: string;
-  large: string;
-  original: string;
-} = {
-  small: `${MOVIE_IMAGE_BASE_URL}w185`,
-  medium: `${MOVIE_IMAGE_BASE_URL}w300`,
-  large: `${MOVIE_IMAGE_BASE_URL}w1280`,
-  original: `${MOVIE_IMAGE_BASE_URL}original`,
-};
 
 const fetchData = async <T>(
   path: string,
@@ -66,3 +53,17 @@ export const findAllGenres = async () => {
   const movieGenres = await getGenres();
   return movieGenres.genres || [];
 };
+
+export const getMovieList = async(ids: string[])=> {
+	const movies: Movie[] = [];
+  const results = await Promise.allSettled(
+    ids.map((id) => getMovie(id)),
+  );
+
+  results.forEach((result) => {
+    if (result.status === "fulfilled") {
+      movies.push(result.value);
+    }
+  });
+  return movies;
+}
